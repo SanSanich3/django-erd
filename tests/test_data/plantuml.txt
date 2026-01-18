@@ -1,5 +1,6 @@
 @startuml
 
+package "tests" {
 entity Customer {
   *id: integer
   first_name: text
@@ -24,6 +25,7 @@ entity Region {
   *id: integer
   name: text
   label: text
+}
 }
 Product::id }|--|{ Region::id
 Order::customer_id }|--|| Customer::id

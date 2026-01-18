@@ -90,6 +90,14 @@ MODEL_PATTERN_LOOKUP = {
     Dialect.PLANTUML: "entity {model_name} {{\n{model_fields}\n}}",
 }
 
+# App grouping patterns for different dialects (None = no grouping support)
+APP_GROUP_PATTERN_LOOKUP = {
+    Dialect.MERMAID: None,
+    Dialect.MERMAID_FLOW: None,
+    Dialect.DBDIAGRAM: None,
+    Dialect.PLANTUML: 'package "{app_label}" {{\n{models}\n}}',
+}
+
 # Complete output structure patterns for different dialects
 OUTPUT_PATTERN_LOOKUP = {
     Dialect.MERMAID: "erDiagram\n{models}\n{relationships}",

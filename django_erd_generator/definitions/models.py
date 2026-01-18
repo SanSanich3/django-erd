@@ -9,6 +9,7 @@ different diagramming tools.
 
 from typing import Union
 from django_erd_generator.contrib.dialects import (
+    APP_GROUP_PATTERN_LOOKUP,
     MODEL_PATTERN_LOOKUP,
     OUTPUT_PATTERN_LOOKUP,
     Dialect,
@@ -55,6 +56,7 @@ class ModelDefinition(BaseDefinition):
         self.fields = self.django_model
         self.relationships = self.django_model
         self.name = model.__name__
+        self.app_label = model._meta.app_label
 
     @property
     def fields(self) -> list[FieldDefinition]:
@@ -207,11 +209,34 @@ class ModelArray(BaseArray):
 
         Combines model definitions and relationships into a complete ERD
         using the appropriate output pattern for the specified dialect.
+        Models are grouped by app label when the dialect supports it.
 
         Returns:
             Complete ERD string representation in the specified dialect format
         """
-        models_string = "\n".join([i.to_string() for i in self])
+        group_pattern = APP_GROUP_PATTERN_LOOKUP.get(self.dialect)
+
+        if group_pattern:
+            # Group models by app label
+            apps_models: dict[str, list[str]] = {}
+            for model_def in self:
+                if model_def.app_label not in apps_models:
+                    apps_models[model_def.app_label] = []
+                apps_models[model_def.app_label].append(model_def.to_string())
+
+            # Generate grouped output
+            grouped_parts = []
+            for app_label, model_strings in apps_models.items():
+                grouped_parts.append(
+                    group_pattern.format(
+                        app_label=app_label,
+                        models="\n".join(model_strings),
+                    )
+                )
+            models_string = "\n\n".join(grouped_parts)
+        else:
+            models_string = "\n".join([i.to_string() for i in self])
+
         return OUTPUT_PATTERN_LOOKUP[self.dialect].format(
             models=models_string,
             relationships=self.relationships.to_string(),
