@@ -19,7 +19,7 @@ class RelationshipTestCase(TestCase):
 
         dialects = {
             Dialect.MERMAID: 'Order ||--|{ Customer: ""',
-            Dialect.PLANTUML: "Order ||--|{ Customer",
+            Dialect.PLANTUML: "Order::customer_id ||--|{ Customer::id",
             Dialect.DBDIAGRAM: "Ref: Order.customer_id < Customer.id",
         }
 
@@ -32,7 +32,7 @@ class RelationshipArrayTestCase(TestCase):
     def test_relationship_array_dialect_render(self):
         dialects = {
             Dialect.MERMAID: 'Order }|--|| Customer: ""\nOrder }|--|| Product: ""',
-            Dialect.PLANTUML: "Order }|--|| Customer\nOrder }|--|| Product",
+            Dialect.PLANTUML: "Order::customer_id }|--|| Customer::id\nOrder::product_id }|--|| Product::id",
             Dialect.DBDIAGRAM: "Ref: Order.customer_id > Customer.id\nRef: Order.product_id > Product.id",
         }
 
