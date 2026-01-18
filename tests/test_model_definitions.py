@@ -36,11 +36,11 @@ class ModelDefinitionTestCase(TestCase):
     def test_model_relationships(self):
         expected_relationships = {
             1: [
-                ("Product", "Region", "many_to_many"),
+                ("tests_Product", "tests_Region", "many_to_many"),
             ],
             2: [
-                ("Order", "Customer", "many_to_one"),
-                ("Order", "Product", "many_to_one"),
+                ("tests_Order", "tests_Customer", "many_to_one"),
+                ("tests_Order", "tests_Product", "many_to_one"),
             ],
         }
         for i, relationships in expected_relationships.items():
@@ -59,9 +59,9 @@ class ModelArrayTestCase(TestCase):
     def test_array_relationships(self):
         relationships = self._.relationships
         expected_relationships = [
-            ("Product", "Region", "many_to_many"),
-            ("Order", "Customer", "many_to_one"),
-            ("Order", "Product", "many_to_one"),
+            ("tests_Product", "tests_Region", "many_to_many"),
+            ("tests_Order", "tests_Customer", "many_to_one"),
+            ("tests_Order", "tests_Product", "many_to_one"),
         ]
 
         for i, (to_model, from_model, rel) in enumerate(expected_relationships):

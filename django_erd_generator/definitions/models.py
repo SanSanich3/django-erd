@@ -55,8 +55,8 @@ class ModelDefinition(BaseDefinition):
         self.dialect = dialect
         self.fields = self.django_model
         self.relationships = self.django_model
-        self.name = model.__name__
         self.app_label = model._meta.app_label
+        self.name = f"{self.app_label}_{model.__name__}"
 
     @property
     def fields(self) -> list[FieldDefinition]:
@@ -133,7 +133,7 @@ class ModelDefinition(BaseDefinition):
             String representation of the model in ERD dialect format
         """
         return MODEL_PATTERN_LOOKUP[self.dialect].format(
-            model_name=self.django_model.__name__,
+            model_name=self.name,
             model_fields=self.fields.to_string(),
         )
 

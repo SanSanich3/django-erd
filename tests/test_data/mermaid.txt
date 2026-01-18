@@ -1,29 +1,29 @@
 erDiagram
-Customer {
+tests_Customer {
   integer id pk
-  text first_name 
-  text last_name 
+  text first_name
+  text last_name
 }
-Product {
+tests_Product {
   integer id pk
-  text sku 
-  text product_name 
-  text product_code 
-  integer quantity 
-  decimal price 
+  text sku
+  text product_name
+  text product_code
+  integer quantity
+  decimal price
 }
-Order {
+tests_Order {
   integer id pk
-  integer customer_id 
-  integer product_id 
-  integer quantity 
-  decimal order_total 
+  integer customer_id
+  integer product_id
+  integer quantity
+  decimal order_total
 }
-Region {
+tests_Region {
   integer id pk
-  text name 
-  text label 
+  text name
+  text label
 }
-Product }|--|{ Region: ""
-Order }|--|| Customer: ""
-Order }|--|| Product: ""
+tests_Product }|--|{ tests_Region: ""
+tests_Order }|--|| tests_Customer: ""
+tests_Order }|--|| tests_Product: ""

@@ -66,9 +66,11 @@ class Relationship(BaseDefinition):
         self.dialect = dialect
         self.rel = rel_code
         if field:
-            self.from_model = field.related_model.__name__
+            from_app = field.related_model._meta.app_label
+            to_app = field.model._meta.app_label
+            self.from_model = f"{from_app}_{field.related_model.__name__}"
             self.from_field = field.related_model._meta.pk.attname
-            self.to_model = field.model.__name__
+            self.to_model = f"{to_app}_{field.model.__name__}"
             self.to_field = field.attname if hasattr(field, "attname") else field.name
             if self.rel == "many_to_many":
                 self.to_field = field.model._meta.pk.attname

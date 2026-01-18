@@ -209,7 +209,7 @@ class FieldDefinition(BaseDefinition):
             col_name=col_name,
             data_type=self.data_type["data_type"],
             primary_key=pk,
-        )
+        ).rstrip()
 
     def __repr__(self) -> str:
         """

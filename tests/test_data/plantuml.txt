@@ -1,12 +1,12 @@
 @startuml
 
 package "tests" {
-entity Customer {
+entity tests_Customer {
   *id: integer
   first_name: text
   last_name: text
 }
-entity Product {
+entity tests_Product {
   *id: integer
   sku: text
   product_name: text
@@ -14,21 +14,21 @@ entity Product {
   quantity: integer
   price: decimal
 }
-entity Order {
+entity tests_Order {
   *id: integer
   customer_id: integer
   product_id: integer
   quantity: integer
   order_total: decimal
 }
-entity Region {
+entity tests_Region {
   *id: integer
   name: text
   label: text
 }
 }
-Product::id }|--|{ Region::id
-Order::customer_id }|--|| Customer::id
-Order::product_id }|--|| Product::id
+tests_Product::id }|--|{ tests_Region::id
+tests_Order::customer_id }|--|| tests_Customer::id
+tests_Order::product_id }|--|| tests_Product::id
 
 @enduml

@@ -10,17 +10,17 @@ class RelationshipTestCase(TestCase):
     def test_init_relationship_definition(self):
         field = Order._meta.get_field("customer")
         relationship = Relationship(field, "one_to_many")
-        self.assertEqual(relationship.to_model, "Order")
-        self.assertEqual(relationship.from_model, "Customer")
+        self.assertEqual(relationship.to_model, "tests_Order")
+        self.assertEqual(relationship.from_model, "tests_Customer")
         self.assertEqual(relationship.rel, "one_to_many")
 
     def test_relationship_definition_dialect_render(self):
         field = Order._meta.get_field("customer")
 
         dialects = {
-            Dialect.MERMAID: 'Order ||--|{ Customer: ""',
-            Dialect.PLANTUML: "Order::customer_id ||--|{ Customer::id",
-            Dialect.DBDIAGRAM: "Ref: Order.customer_id < Customer.id",
+            Dialect.MERMAID: 'tests_Order ||--|{ tests_Customer: ""',
+            Dialect.PLANTUML: "tests_Order::customer_id ||--|{ tests_Customer::id",
+            Dialect.DBDIAGRAM: "Ref: tests_Order.customer_id < tests_Customer.id",
         }
 
         for dialect, expected in dialects.items():
@@ -31,9 +31,9 @@ class RelationshipTestCase(TestCase):
 class RelationshipArrayTestCase(TestCase):
     def test_relationship_array_dialect_render(self):
         dialects = {
-            Dialect.MERMAID: 'Order }|--|| Customer: ""\nOrder }|--|| Product: ""',
-            Dialect.PLANTUML: "Order::customer_id }|--|| Customer::id\nOrder::product_id }|--|| Product::id",
-            Dialect.DBDIAGRAM: "Ref: Order.customer_id > Customer.id\nRef: Order.product_id > Product.id",
+            Dialect.MERMAID: 'tests_Order }|--|| tests_Customer: ""\ntests_Order }|--|| tests_Product: ""',
+            Dialect.PLANTUML: "tests_Order::customer_id }|--|| tests_Customer::id\ntests_Order::product_id }|--|| tests_Product::id",
+            Dialect.DBDIAGRAM: "Ref: tests_Order.customer_id > tests_Customer.id\nRef: tests_Order.product_id > tests_Product.id",
         }
 
         for dialect, expected in dialects.items():
