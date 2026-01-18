@@ -113,7 +113,10 @@ class ModelDefinition(BaseDefinition):
             relationship = FieldDefinition.get_relationship(field, dialect=self.dialect)
             if relationship and relationship.rel != "one_to_many":
                 # NOTE: one_to_many and many_to_one are duplicated, so we only take one
-                # of these values.
+                # of these values. Similarly, skip reverse one_to_one relations (non-concrete)
+                # as they're handled by the forward side.
+                if relationship.rel == "one_to_one" and not field.concrete:
+                    continue
                 valid_relationships.append(relationship)
         self._relationships = valid_relationships
 
